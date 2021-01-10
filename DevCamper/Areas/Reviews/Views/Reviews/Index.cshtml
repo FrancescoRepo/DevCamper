@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Review>
+
+@{
+    ViewData["Title"] = "My Reviews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br />
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 m-auto">
+            <div class="card bg-white py-2 px-4">
+                <div class="card-body">
+                    @if (Model.Count() > 0)
+                    {
+                        <h1 class="mb-4">Manage Reviews</h1>
+                        <form method="post" asp-action="Remove">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Bootcamp</th>
+                                        <th scope="col">Rating</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var review in Model)
+                                    {
+                                        <tr>
+                                            <td>@review.Bootcamp.Name</td>
+                                            <td>@review.Rating</td>
+                                            <td>
+                                                <a asp-action="Edit" asp-controller="Reviews" asp-area="Reviews" asp-route-Id="@review.Id" class="btn btn-secondary">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </a>
+                                                <button type="submit" class="btn btn-danger" asp-action="Remove" asp-controller="Reviews" asp-area="Reviews" asp-route-Id="@review.Id">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </form>
+                    }
+                    else
+                    {
+                        <h1 class="mb-4">No Reviews written yet.</h1>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

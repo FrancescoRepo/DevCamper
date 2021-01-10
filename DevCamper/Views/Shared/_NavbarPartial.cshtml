@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> _signInManager
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+    <div class="container">
+        <a class="navbar-brand" asp-action="Index" asp-controller="Home" asp-area="Home"><i class="fas fa-laptop-code"></i> DevCamper</a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                @if (!_signInManager.IsSignedIn(User))
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="Identity" asp-page="/Account/Register"><i class="fas fa-user-plus"></i> Register</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle"
+                           href="#"
+                           id="navbarDropdown"
+                           role="button"
+                           data-toggle="dropdown">
+                            <i class="fas fa-user"></i> Account
+                        </a>
+                        <div class="dropdown-menu">
+                            @if (User.IsInRole("Publisher"))
+                            {
+                                <a class="dropdown-item" asp-action="Manage" asp-controller="Bootcamps" asp-area="Bootcamp">Manage Bootcamp</a>
+                            }
+
+                            <a class="dropdown-item" asp-action="Index" asp-controller="Reviews" asp-area="Reviews">Manage Reviews</a>
+                            <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Manage Account</a>
+                            <div class="dropdown-divider"></div>
+                            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "Home" })">
+                                <button id="logout" type="submit" class="dropdown-item">Logout</button>
+                            </form>
+
+                        </div>
+                    </li>
+                    <li class="nav-item d-none d-sm-block">
+                        <a class="nav-link" href="#">|</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Bootcamps" asp-area="Bootcamp">Browse Bootcamps</a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</nav>

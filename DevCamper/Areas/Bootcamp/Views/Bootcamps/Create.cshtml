@@ -1,0 +1,131 @@
+﻿@model DevCamper.Models.ViewModels.CreateEditBootcampViewModel
+
+@{
+    ViewData["Title"] = "Create Bootcamp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br />
+<section class="container mt-5">
+    <h1 class="mb-2">Add Bootcamp</h1>
+    <p>
+        Important: You must be affiliated with a bootcamp to add to DevCamper
+    </p>
+    <form method="post" asp-action="Create" asp-controller="Bootcamps" asp-area="Bootcamp">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card bg-white py-2 px-4">
+                    <div class="card-body">
+                        <h3>Location & Contact</h3>
+                        <p class="text-muted">
+                            If multiple locations, use the main or largest
+                        </p>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Name"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Bootcamp Name"
+                                   required
+                                   asp-for="@Model.Bootcamp.Name" />
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Name"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Address"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Full Address"
+                                   required
+                                   asp-for="@Model.Bootcamp.Address" />
+                            <small class="form-text text-muted">Street, city, state, etc</small>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Address"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Phone"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Phone"
+                                   asp-for="@Model.Bootcamp.Phone" />
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Phone"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Email"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Contact Email"
+                                   asp-for="@Model.Bootcamp.Email" />
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Email"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Website"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Website URL"
+                                   asp-for="@Model.Bootcamp.Website" />
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Website"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-white py-2 px-4">
+                    <div class="card-body">
+                        <h3>Other Info</h3>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Description"></label>
+                            <textarea rows="5"
+                                      class="form-control"
+                                      placeholder="Description (What you offer, etc)"
+                                      maxlength="500"
+                                      asp-for="@Model.Bootcamp.Description"></textarea>
+                            <small class="form-text text-muted">No more than 500 characters</small>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Description"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Bootcamp.Career">Careers</label>
+                            @Html.DropDownListFor(b => b.Bootcamp.CareerId, new SelectList(Model.Careers, "Id", "Name"), "", new { @class = "form-control" })
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   asp-for="@Model.Bootcamp.Housing" />
+                            <label class="form-check-label" asp-for="@Model.Bootcamp.Housing"></label>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.Housing"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   asp-for="@Model.Bootcamp.JobAssistance" />
+                            <label class="form-check-label" asp-for="@Model.Bootcamp.JobAssistance"></label>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.JobAssistance"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   asp-for="@Model.Bootcamp.JobGuarantee" />
+                            <label class="form-check-label" asp-for="@Model.Bootcamp.JobGuarantee"></label>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.JobGuarantee"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   asp-for="@Model.Bootcamp.AcceptGi" />
+                            <label class="form-check-label" asp-for="@Model.Bootcamp.AcceptGi"></label>
+                            <span class="text-danger" asp-validation-for="@Model.Bootcamp.AcceptGi"></span>
+                        </div>
+                        <p class="text-muted my-4">
+                            *After you add the bootcamp, you can add the specific courses
+                            offered
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="submit"
+                   value="Submit Bootcamp"
+                   class="btn btn-success btn-block my-4" />
+        </div>
+    </form>
+</section>
+
