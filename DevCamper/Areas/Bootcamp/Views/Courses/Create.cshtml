@@ -1,0 +1,76 @@
+﻿@model DevCamper.Models.ViewModels.CreateEditCourseViewModel
+
+@{
+    ViewData["Title"] = "Create Course";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br /><br />
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 m-auto">
+            <div class="card bg-white py-2 px-4">
+                <div class="card-body">
+                    <a asp-action="Index" asp-controller="Courses" asp-area="Bootcamp" asp-route-Slug="@Model.BootcampSlug"
+                       class="btn btn-link text-secondary my-3"><i class="fas fa-chevron-left"></i> Manage Courses</a>
+                    <h1 class="mb-2">@Model.BootcampTitle</h1>
+                    <h3 class="text-primary mb-4">Add Course</h3>
+                    <form asp-action="Insert" asp-controller="Courses" asp-area="Bootcamp" method="post">
+                        @Html.HiddenFor(m => m.BootcampSlug)
+                        <div class="form-group">
+                            <label asp-for="@Model.Course.Title"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Title"
+                                   asp-for="@Model.Course.Title" />
+                            <span class="text-danger" asp-validation-for="@Model.Course.Title"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Course.Weeks"></label>
+                            <input type="text"
+                                   class="form-control"
+                                   placeholder="Duration"
+                                   asp-for="@Model.Course.Weeks" />
+                            <small class="form-text text-muted">Enter number of weeks course lasts</small>
+                            <span class="text-danger" asp-validation-for="@Model.Course.Weeks"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Course.Tuition"></label>
+                            <input type="number"
+                                   placeholder="Tuition"
+                                   class="form-control"
+                                   asp-for="@Model.Course.Tuition" />
+                            <small class="form-text text-muted">USD Currency</small>
+                            <span class="text-danger" asp-validation-for="@Model.Course.Tuition"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="@Model.Course.Skill"></label>
+                            @Html.DropDownListFor(c => c.Course.SkillId, new SelectList(Model.Skills, "Id", "Name"), "", new { @class = "form-control" })
+                        </div>
+                        <div class="form-group">
+                            <textarea rows="5"
+                                      class="form-control"
+                                      placeholder="Course description summary"
+                                      maxlength="500"
+                                      asp-for="@Model.Course.Description"></textarea>
+                            <small class="form-text text-muted">No more than 500 characters</small>
+                            <span class="text-danger" asp-validation-for="@Model.Course.Description"></span>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   asp-for="@Model.Course.ScholarshipsAvailable" />
+                            <label class="form-check-label" asp-for="@Model.Course.ScholarshipsAvailable"></label>
+                        </div>
+                        <div class="form-group mt-4">
+                            <input type="submit"
+                                   value="Add Course"
+                                   class="btn btn-dark btn-block" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

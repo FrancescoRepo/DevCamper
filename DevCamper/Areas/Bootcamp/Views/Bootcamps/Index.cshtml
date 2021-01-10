@@ -1,0 +1,70 @@
+﻿@model IEnumerable<Bootcamp>
+@{
+    ViewData["Title"] = "Bootcamps";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<section class="browse my-5">
+    <div class="container">
+        <div class="row">
+            <partial name="_LocationFilterPartial" />
+            @if (Model.Count() > 0)
+            {
+                <!-- Main col -->
+                <div class="col-md-8">
+                    <!-- Bootcamps -->
+                    @foreach (var bootcamp in Model)
+                    {
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    @{
+                                        var picture = "";
+                                        if (bootcamp.Picture != null) picture = "data:image / jpeg; base64," + @Convert.ToBase64String(bootcamp.Picture);
+                                    }
+                                    <img src="@picture" class="card-img" alt="..." />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a asp-action="Details" asp-controller="Bootcamps" asp-area="Bootcamp" asp-route-Slug="@bootcamp.Slug">
+                                                @bootcamp.Name
+                                                <span class="float-right badge badge-success">8.8</span>
+                                            </a>
+                                        </h5>
+                                        <span class="badge badge-dark mb-2">@bootcamp.Address</span>
+                                        <p class="card-text">
+                                            @bootcamp.Career.Name
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- Pagination -->
+                    <!--<nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>-->
+                </div>
+            }
+            else
+            {
+                <h1 class="mb-4">0 results found</h1>
+            }
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,65 @@
+﻿@model DevCamper.Models.ViewModels.IndexBootcampReviewsViewModel
+
+@{
+    ViewData["Title"] = "Reviews";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<section class="bootcamp mt-5">
+    <div class="container">
+        <div class="row">
+            @if (Model.Reviews.Count() > 0)
+            {
+                <!-- Main col -->
+                <div class="col-md-8">
+                    <a asp-action="Details" asp-controller="Bootcamps" asp-area="Bootcamp" asp-route-Slug="@Model.Slug"
+                       class="btn btn-secondary my-3"><i class="fas fa-chevron-left"></i> Bootcamp Info</a>
+                    <h1 class="mb-4">@Model.BootcampTitle Reviews</h1>
+                    <!-- Reviews -->
+                    @foreach (var review in Model.Reviews)
+                    {
+                        <div class="card mb-3">
+                            <h5 class="card-header bg-dark text-white">@review.Title</h5>
+                            <div class="card-body">
+                                @{
+                                    var classRating = "text-danger";
+                                    if (review.Rating >= 5 && review.Rating <= 10) classRating = "text-success";
+                                }
+                                <h5 class="card-title">
+                                    Rating: <span class="@classRating">@review.Rating</span>
+                                </h5>
+                                <p class="card-text">
+                                    @review.Text
+                                </p>
+                                <p class="text-muted">Writtern By @review.ApplicationUser.Name @review.ApplicationUser.Surname</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <!-- Sidebar -->
+                <div class="col-md-4">
+                    <!-- Rating -->
+                    <h1 class="text-center my-4">
+                        <span class="badge badge-secondary badge-success rounded-circle p-3">8.8</span>
+                        Rating
+                    </h1>
+                    <!-- Buttons -->
+                    <a href="add-review.html" class="btn btn-primary btn-block my-3"><i class="fas fa-pencil-alt"></i> Review This Bootcamp</a>
+                </div>
+            }
+            else
+            {
+                <div class="col-md-8">
+                    <a asp-action="Details" asp-controller="Bootcamps" asp-area="Bootcamp" asp-route-Slug="@Model.Slug"
+                       class="btn btn-secondary my-3"><i class="fas fa-chevron-left"></i> Bootcamp Info</a>
+                    <h1 class="mb-4">This bootcamp has no reviews yet.</h1>
+                    <a asp-action="CreateReview" asp-controller="Bootcamps" asp-area="Bootcamp" asp-route-Slug="@Model.Slug" class="btn btn-primary btn-block my-3"><i class="fas fa-pencil-alt"></i> Review This Bootcamp</a>
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+

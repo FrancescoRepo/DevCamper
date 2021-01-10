@@ -1,0 +1,118 @@
+﻿@model Bootcamp
+
+@{
+    ViewData["Title"] = "Manage Bootcamp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 m-auto">
+            <div class="card bg-white py-2 px-4">
+                <div class="card-body" id="card-body">
+
+                    @if (Model == null)
+                    {
+                        <partial name="_AddBootcampPartial" />
+                    }
+                    else
+                    {
+                        <h1 class="mb-4">Manage Bootcamp</h1>
+                        <div class="card mb-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-4">
+                                    @{
+                                        var picture = "";
+                                        if (Model.Picture != null) picture = "data:image / jpeg; base64," + @Convert.ToBase64String(Model.Picture);
+                                    }
+                                    <img src="@picture" class="card-img" alt="..." />
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="bootcamp.html">
+                                                @Model.Name
+                                                <span class="float-right badge badge-success">8.8</span>
+                                            </a>
+                                        </h5>
+                                        <span class="badge badge-dark mb-2">@Model.Address</span>
+                                        <p class="card-text">
+                                            @Model.Career.Name
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <form class="mb-4" enctype="multipart/form-data" asp-action="LoadImage" method="post">
+                            @Html.HiddenFor(b => b.Id)
+                            <div class="form-group">
+                                <div class="custom-file">
+                                    <input type="file"
+                                           name="photo"
+                                           class="custom-file-input"
+                                           id="photo" />
+                                    <label class="custom-file-label" for="photo">Add Bootcamp Image</label>
+                                </div>
+                            </div>
+                            <input type="submit" class="btn btn-light btn-block" value="Upload Image">
+                        </form>
+                        <a asp-action="Edit" asp-controller="Bootcamps" asp-area="Bootcamp" asp-route-Slug="@Model.Slug" class="btn btn-primary btn-block">Edit Bootcamp Details</a>
+                        <a asp-action="Index" asp-controller="Courses" asp-area="Bootcamp" asp-route-Slug="@Model.Slug" class="btn btn-secondary btn-block">Manage Courses</a>
+                        <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#removeBootcampModal">Remove Bootcamp</button>
+                        <p class="text-muted mt-5">
+                            * You can only add one bootcamp per account.
+                        </p>
+                        <p class="text-muted">
+                            * You must be affiliated with the bootcamp in some way in order
+                            to add it to DevCamper.
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="removeBootcampModal" tabindex="-1" role="dialog" aria-labelledby="removeBootcampModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Delete Bootcamp</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this Bootcamp?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="removeBtn" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @if (Model != null)
+    {
+        <script>
+            $(function () {
+                $("#removeBtn").click(function () {
+                    $.ajax({
+                        url: '/Bootcamp/Remove/' + @Model.Slug,
+                        type: "GET",
+                        contentType: 'application/html',
+                        success: function (data) {
+                            $("#removeBootcampModal").modal('toggle');
+                            $("#card-body").html(data);
+                        }
+                    });
+                });
+            });
+        </script>
+    }
+}

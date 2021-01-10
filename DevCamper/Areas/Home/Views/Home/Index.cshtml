@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@inject SignInManager<IdentityUser> _signInManager
+<!-- Showcase -->
+<section class="showcase">
+    <div class="dark-overlay">
+        <div class="showcase-inner container">
+            <h1 class="display-4">Find a Code Bootcamp</h1>
+            <p class="lead">
+                Find, rate and read reviews on coding bootcamps
+            </p>
+            @if (_signInManager.IsSignedIn(User))
+            {
+                <a asp-action="Index" asp-controller="Bootcamps" asp-area="Bootcamp" class="btn btn-primary btn-block">Find Bootcamps</a>
+            }
+        </div>
+    </div>
+</section>
+
