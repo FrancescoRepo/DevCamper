@@ -34,3 +34,6 @@ Once the database has been created, execute these two query:
 #### Run the project and try it out.
 
 HTML Template by: https://github.com/bradtraversy
+
+## License
+DevCamper is available under the MIT license. See the LICENSE file for more info.
